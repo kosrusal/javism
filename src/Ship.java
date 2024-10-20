@@ -1,6 +1,9 @@
 // src/Ship.java
 import java.awt.*;
+import java.io.File;
 
+import javax.imageio.ImageIO;
+ 
 public class Ship extends Unit implements HealthPoint {
     public Weapon weapon;
     public int hp = 1;
@@ -13,8 +16,22 @@ public class Ship extends Unit implements HealthPoint {
     }
 
     public void fire() {
-        Bullet bullet = new Bullet(this.x, this.y, 15, this.angle, null, 10); 
-        weapon.bullets.add(bullet);
+        try {
+            Image image = ImageIO.read(new File("javism/src/bullet.png"));
+            // Create a new bullet at the ship's position and angle
+            Bullet bullet = new Bullet(
+                    this.x + image.getWidth(null) / 2, // Bullet starts at ship's center x
+                    this.y + image.getHeight(null) / 2, // Bullet starts at ship's center y
+                    15, // Bullet speed
+                    this.angle, 
+                    image, // You can provide a bullet image here if you have one
+                    10 // Bullet damage
+            ); 
+            weapon.bullets.add(bullet); // Add the bullet to the weapon's bullet list
+        } catch (Exception e) {
+            System.out.println("Облом в пули");
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

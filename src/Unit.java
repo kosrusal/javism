@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.geom.*;
 
 public abstract class Unit implements Moving, Drawing {
     public int x = 0;
@@ -15,5 +16,21 @@ public abstract class Unit implements Moving, Drawing {
         this.angle = angle;
         this.image = image;
         direction = new Direction();
+    }
+
+    public Rectangle getBoundingRectangle() {
+        if (image == null) {
+            return new Rectangle(x, y, 30, 30); // Default size if no image
+        }
+    
+        int imageWidth = image.getWidth(null);
+        int imageHeight = image.getHeight(null);
+        
+        int nx = x + (int) Math.round(0.1*imageWidth);
+        int ny = y + (int) Math.round(0.1*imageHeight);
+        int nw = imageWidth - (int) Math.round(0.2*imageWidth);
+        int nh = imageHeight - (int) Math.round(0.2*imageHeight);
+        
+        return new Rectangle(nx, ny, nw, nh);
     }
 }
