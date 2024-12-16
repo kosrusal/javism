@@ -155,6 +155,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
                 } else {
                     // Check for collision with the other ship
                     Ship otherShip = (ship == orc) ? enemy : orc;
+                    if (otherShip == null) {
+                        return;
+                    }
                     if (isCollision(bullet.getBoundingRectangle(), otherShip.getBoundingRectangle())) {
                         otherShip.setHP(otherShip.getHP() - bullet.damage);
                         iterator.remove();
